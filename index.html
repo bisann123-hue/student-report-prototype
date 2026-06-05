@@ -58,9 +58,14 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 /* 2. NON-STICKY SKILL STRIP */
 .skill-strip{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin:12px 0 24px}.skill-card{border:1px solid var(--border);border-radius:12px;background:#fff;min-height:86px;padding:14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer;transition:.15s}.skill-card:hover{box-shadow:0 6px 18px rgba(15,23,42,.08);transform:translateY(-1px)}.skill-card.active{border:2px solid var(--teal);background:var(--teal-soft)}.skill-title{font-size:12px;color:var(--text2);font-weight:800;margin-bottom:7px}.skill-score{font-size:22px;font-weight:950;line-height:1}.skill-score.empty{color:var(--text3)}.skill-meta{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
 
-.active-pill,.status-pill{border-radius:999px;padding:4px 9px;font-size:10px;font-weight:900}.active-pill{background:#eff6ff;color:#1e40af}.above{background:#dcfce7;color:#15803d}.on{background:#fef3c7;color:#92400e}.below{background:#fee2e2;color:#b91c1c}.pending{background:#fef3c7;color:#92400e}.progress{background:#dbeafe;color:#1d4ed8}.not-started{background:#f1f5f9;color:#64748b}.skill-icon{width:34px;height:34px;border-radius:9px;background:var(--teal-light);color:var(--teal);display:grid;place-items:center;font-size:16px}
+/* STYLE VARIANTS FOR CURRENT ACTIVE VS HISTORICAL SNAPSHOTS */
+.active-pill,.status-pill{border-radius:999px;padding:4px 9px;font-size:10px;font-weight:900}
+.active-pill{background:#eff6ff;color:#1e40af}
+.active-pill.historical{background:#f1f5f9;color:#475569}
 
-/* 3. STICKY TERM CONTROLS LAYER (Stacks below Student Name Row at 64px) */
+.above{background:#dcfce7;color:#15803d}.on{background:#fef3c7;color:#92400e}.below{background:#fee2e2;color:#b91c1c}.pending{background:#fef3c7;color:#92400e}.progress{background:#dbeafe;color:#1d4ed8}.not-started{background:#f1f5f9;color:#64748b}.skill-icon{width:34px;height:34px;border-radius:9px;background:var(--teal-light);color:var(--teal);display:grid;place-items:center;font-size:16px}
+
+/* 3. STICKY TERM CONTROLS LAYER */
 .sticky-header-container {
   position: sticky;
   top: 64px; 
@@ -84,7 +89,7 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 .summary-card{display:grid;grid-template-columns:1.4fr 1fr 1fr 2.2fr;background:#f7f9fc;border-radius:12px;overflow:hidden;margin-bottom:22px}.summary-cell{padding:15px 18px;border-right:1px solid var(--border);min-height:96px}.summary-cell:last-child{border-right:none}.label{color:#64748b;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.03em}.big-value{font-size:30px;font-weight:950;margin-top:10px}.grade-pill{background:#dff3d5;color:#407c2e;border-radius:999px;padding:7px 16px;font-weight:900;margin-left:10px;font-size:15px}.info-text{color:#5b6676;line-height:1.5;font-size:13px}.link{color:var(--teal);text-decoration:underline}
 .section{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.section-header{display:flex;align-items:center;justify-content:space-between;font-weight:950;margin-bottom:12px;cursor:pointer}.section-header span{font-size:12px;color:#94a3b8;font-weight:800}
 .attempt-progress-row{display:grid;grid-template-columns:180px 1fr 130px;gap:18px;align-items:center;margin:16px 0}.attempt-title{font-weight:950}.attempt-date{color:#7b8794;font-size:12px;margin-top:4px}.progress-shell{height:26px;border:1px solid #dbe1e8;border-radius:6px;overflow:hidden;background:white}.progress-fill{height:100%;background:#a8db8f}.progress-fill.pending-fill{background:#f59e0b}.progress-upcoming{height:100%;background:#f1f5f9;color:#7b8794;display:flex;align-items:center;padding-left:14px;font-size:12px;font-weight:700}.result-mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;color:#475569;font-weight:800}
-.domain-table{width:100%;border-collapse:collapse}.domain-table th,.domain-table td{border-bottom:1px solid #edf0f3;padding:12px;text-align:left}.domain-table th{color:#64748b;font-size:12px}.score-badge{display:inline-flex;min-width:34px;height:28px;padding:0 10px;align-items:center;justify-content:center;border-radius:999px;font-weight:900}.score-strong{background:#d8f2cf;color:#347a2a}.score-mid覆{background:#fff0b8;color:#8a6400}.score-strong{background:#d8f2cf;color:#347a2a}.score-mid{background:#fff0b8;color:#8a6400}.score-low{background:#ffd4d4;color:#b42318}.score-blue{background:#d6ebff;color:#2563eb}
+.domain-table{width:100%;border-collapse:collapse}.domain-table th,.domain-table td{border-bottom:1px solid #edf0f3;padding:12px;text-align:left}.domain-table th{color:#64748b;font-size:12px}.score-badge{display:inline-flex;min-width:34px;height:28px;padding:0 10px;align-items:center;justify-content:center;border-radius:999px;font-weight:900}.score-strong{background:#d8f2cf;color:#347a2a}.score-mid{background:#fff0b8;color:#8a6400}.score-low{background:#ffd4d4;color:#b42318}.score-blue{background:#d6ebff;color:#2563eb}
 .standards-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.standard-group{border-left:4px solid var(--red);padding-left:14px}.standard-group.meeting{border-left-color:var(--green)}.standard-title{font-weight:950;margin-bottom:10px}.standard-list{margin:0;padding-left:18px;line-height:1.8}.arabic{direction:rtl;text-align:right;font-family:Tahoma,Arial,sans-serif}
 .history-chart{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}.history-top{display:flex;gap:38%;margin-bottom:14px;font-weight:800}.history-top strong{display:block;font-size:20px;margin-top:5px}svg{width:100%;height:220px;overflow:visible}.hidden{display:none!important}
 @media(max-width:1100px){.shell{grid-template-columns:80px 1fr}.side-item span,.class-title span{display:none}.skill-strip{grid-template-columns:repeat(2,1fr)}.summary-card,.standards-grid{grid-template-columns:1fr}.attempt-progress-row{grid-template-columns:150px 1fr}.result-mini{grid-column:2}}
@@ -136,7 +141,7 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
     <div class="header-row">
       <div class="student-block">
         <div class="student"><div class="student-face">👦</div> Ahmed Al Nasser ▾</div>
-        <div class="year-view-badge" id="yearViewBadge">Viewing: Academic Year 2024-2025</div>
+        <div class="year-view-badge" id="yearViewBadge">Viewing: Academic Year 2025-2026</div>
       </div>
       <div class="actions">
         <button class="icon-btn history-btn" id="historyBtn" type="button" title="Previous Academic Years" aria-label="Previous Academic Years">🕘</button>
@@ -147,7 +152,7 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
     <!-- 2. STATIONARY SKILL CARDS STRIP -->
     <div id="skillCardsStripArea"></div>
 
-    <!-- 3. SECONDARY STICKY LAYER (Term Selection & Dynamic Header Title) -->
+    <!-- 3. SECONDARY STICKY LAYER -->
     <div class="sticky-header-container">
       <div id="controlsTabsArea"></div>
     </div>
@@ -158,24 +163,25 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 </main>
 </div>
 
+<!-- MODAL UPDATE WITH CORRECT DEFAULT YEAR RENDER -->
 <div class="modal-backdrop hidden" id="yearHistoryModal">
   <div class="year-modal" role="dialog" aria-modal="true" aria-labelledby="yearHistoryTitle">
     <button class="modal-close" id="closeYearModal" type="button" aria-label="Close">×</button>
     <h2 id="yearHistoryTitle">Academic Year History</h2>
     <p>Select a previous academic year to view historical data.</p>
     <div class="year-options">
-      <button type="button" class="year-option active" data-year="2024-2025"><span>2024 - 2025</span><small>Current view</small></button>
+      <button type="button" class="year-option active" data-year="2025-2026"><span>2025 - 2026</span><small>Current view</small></button>
+      <button type="button" class="year-option" data-year="2024-2025"><span>2024 - 2025</span><small>Previous year</small></button>
       <button type="button" class="year-option" data-year="2023-2024"><span>2023 - 2024</span><small>Previous year</small></button>
       <button type="button" class="year-option" data-year="2022-2023"><span>2022 - 2023</span><small>Previous year</small></button>
       <button type="button" class="year-option" data-year="2021-2022"><span>2021 - 2022</span><small>Previous year</small></button>
-      <button type="button" class="year-option" data-year="2020-2021"><span>2020 - 2021</span><small>Previous year</small></button>
     </div>
   </div>
 </div>
 
 <script>
 const CURRENT_LATEST_ATTEMPT="term2";
-const DEFAULT_YEAR="2024-2025";
+const DEFAULT_YEAR="2025-2026";
 
 const data={
 reading:{label:"Reading",icon:"▣",attempts:[{key:"term1",short:"Term 1",label:"Beginning of the Year",date:"5th Sep, 2025 - 19th Dec, 2025",scale:611,grade:6,progress:74,completed:true},{key:"term2",short:"Term 2",label:"Middle of the Year",date:"5th Jan, 2026 - 28th Mar, 2026",scale:614,grade:6,progress:78,growth:3,completed:true},{key:"term3",short:"Term 3",label:"End of the Year",date:"20th Mar, 2026 - 19th Jul, 2026",scale:"--",grade:"--",progress:0,upcoming:true}],alDhad:"100D",percentile:"70th",description:"Students at this level can read at a basic-to-expected level, but may still need support with deeper understanding, inference, and vocabulary in context.",domains:[["Foundational Skills","✓",9,"--"],["Informational",7,9,"--"],["Language",8,9,"--"],["Literature",7,9,"--"]],support:["أن يتقن المتعلم تقنيات وأنواع الوصف في الكتابة النصية","أن يميز المتعلم المفاهيم النحوية والصرفية في الجملة الفعلية"],meeting:["أن يستخدم المتعلم استراتيجيات مناسبة لقراءة النصوص","أن يظهر المتعلم قدرته على تفسير علامات الترقيم"],history:[480,535,610,690,744]},
@@ -193,11 +199,11 @@ function cardStatus(a){if(a.pending)return{label:"Pending Evaluation",cls:"pendi
 function badge(v){if(v==="✓")return"score-strong";if(v==="Pending"||v==="Pending Evaluation")return"score-mid";if(v==="--")return"";if(Number(v)>=8)return"score-blue";if(Number(v)>=6)return"score-strong";if(Number(v)>=5)return"score-mid";return"score-low"}
 
 const yearProfiles={
-  "2024-2025":{scoreDelta:0,gradeDelta:0,domainDelta:0},
-  "2023-2024":{scoreDelta:-36,gradeDelta:0,domainDelta:-1},
-  "2022-2023":{scoreDelta:-72,gradeDelta:-1,domainDelta:-2},
-  "2021-2022":{scoreDelta:-110,gradeDelta:-1,domainDelta:-2},
-  "2020-2021":{scoreDelta:-145,gradeDelta:-2,domainDelta:-3}
+  "2025-2026":{scoreDelta:0,gradeDelta:0,domainDelta:0},
+  "2024-2025":{scoreDelta:-36,gradeDelta:0,domainDelta:-1},
+  "2023-2024":{scoreDelta:-72,gradeDelta:-1,domainDelta:-2},
+  "2022-2023":{scoreDelta:-110,gradeDelta:-1,domainDelta:-2},
+  "2021-2022":{scoreDelta:-145,gradeDelta:-2,domainDelta:-3}
 };
 
 function activeYearProfile(){return yearProfiles[state.year]||yearProfiles[DEFAULT_YEAR]}
@@ -230,16 +236,18 @@ function renderCards(){
   const keys=["reading","listening","writing","speaking"];
   const sel=selected();
   
-  // Render Stationary Skill Cards Strip
+  const isDefaultYear = state.year === DEFAULT_YEAR;
+  const timeframeLabel = isDefaultYear ? "Current Active" : "Most Recent";
+  const timeframeClass = isDefaultYear ? "" : "historical";
+  
   document.getElementById("skillCardsStripArea").innerHTML=`
     <div class="skill-strip">${keys.map(k=>{
       const s=data[k],st=cardStatus(latest(k));
       return `<div class="skill-card ${state.skill===k?"active":""}" data-skill="${k}">
-        <div><div class="skill-title">Arabic ${esc(s.label)}</div><div class="skill-score ${st.value==="--"?"empty":""}">${esc(st.value)}</div><div class="skill-meta"><span class="active-pill">Most Recent</span><span class="status-pill ${st.cls}">${esc(st.label)}</span></div></div><div class="skill-icon">${s.icon}</div>
+        <div><div class="skill-title">Arabic ${esc(s.label)}</div><div class="skill-score ${st.value==="--"?"empty":""}">${esc(st.value)}</div><div class="skill-meta"><span class="active-pill ${timeframeClass}">${timeframeLabel}</span><span class="status-pill ${st.cls}">${esc(st.label)}</span></div></div><div class="skill-icon">${s.icon}</div>
       </div>`;
     }).join("")}</div>`;
 
-  // Render Stacked Sticky Control Elements Row
   document.getElementById("controlsTabsArea").innerHTML=`
     <div class="controls-alignment-row">
       <div class="summary-line">Results Overview (Academic Year ${esc(state.year)}) &nbsp; | &nbsp; Arabic ${esc(current().label)} - ${esc(sel.short)}</div>
