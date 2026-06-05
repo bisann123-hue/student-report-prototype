@@ -31,6 +31,335 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 .standards-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.standard-group{border-left:4px solid var(--red);padding-left:14px}.standard-group.meeting{border-left-color:var(--green)}.standard-title{font-weight:950;margin-bottom:10px}.standard-list{margin:0;padding-left:18px;line-height:1.8}.arabic{direction:rtl;text-align:right;font-family:Tahoma,Arial,sans-serif}
 .history-chart{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}.history-top{display:flex;gap:38%;margin-bottom:14px;font-weight:800}.history-top strong{display:block;font-size:20px;margin-top:5px}svg{width:100%;height:220px;overflow:visible}.hidden{display:none!important}
 @media(max-width:1100px){.shell{grid-template-columns:80px 1fr}.side-item span,.class-title span{display:none}.skill-strip{grid-template-columns:repeat(2,1fr)}.summary-card,.standards-grid{grid-template-columns:1fr}.attempt-progress-row{grid-template-columns:150px 1fr}.result-mini{grid-column:2}}
+
+/* Mobile responsiveness */
+@media (max-width: 768px){
+  body{font-size:12px;background:#f8fafc}
+  .shell{
+    display:block;
+    min-height:100vh;
+  }
+  .topbar{
+    height:auto;
+    min-height:48px;
+    padding:8px 12px;
+    gap:12px;
+    position:sticky;
+    top:0;
+    z-index:100;
+  }
+  .logo{width:auto;min-width:72px}
+  .logo span{font-size:17px}
+  .topnav{
+    gap:12px;
+    overflow-x:auto;
+    white-space:nowrap;
+    scrollbar-width:none;
+  }
+  .topnav::-webkit-scrollbar{display:none}
+  .topnav a{font-size:12px;padding:0 2px}
+  .avatar{width:28px;height:28px;font-size:11px}
+
+  .sidebar{
+    display:none;
+  }
+
+  .main{
+    padding:8px;
+    overflow:visible;
+    max-height:none;
+  }
+
+  .panel{
+    border-radius:10px;
+    padding:10px;
+    min-height:auto;
+    box-shadow:none;
+  }
+
+  .header-row{
+    gap:10px;
+    margin-bottom:10px;
+    align-items:flex-start;
+  }
+
+  .student{
+    font-size:16px;
+    gap:8px;
+    min-width:0;
+    line-height:1.25;
+  }
+
+  .student-face{
+    width:28px;
+    height:28px;
+    font-size:15px;
+    flex-shrink:0;
+  }
+
+  .actions{
+    gap:6px;
+    flex-shrink:0;
+  }
+
+  .icon-btn{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    font-size:16px;
+  }
+
+  #topArea{
+    position:sticky;
+    top:48px;
+    z-index:90;
+    background:#fff;
+    padding:6px 0 8px;
+    border-bottom:1px solid var(--border);
+    box-shadow:0 8px 14px rgba(15,23,42,.05);
+  }
+
+  .skill-strip{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin:4px 0 8px;
+  }
+
+  .skill-card{
+    min-height:74px;
+    padding:10px;
+    border-radius:10px;
+    gap:6px;
+  }
+
+  .skill-title{
+    font-size:10.5px;
+    margin-bottom:6px;
+  }
+
+  .skill-score{
+    font-size:18px;
+  }
+
+  .skill-meta{
+    gap:4px;
+    margin-top:6px;
+  }
+
+  .latest-pill,.status-pill{
+    font-size:9px;
+    padding:3px 7px;
+  }
+
+  .skill-icon{
+    width:28px;
+    height:28px;
+    border-radius:8px;
+    font-size:14px;
+  }
+
+  .term-row{
+    justify-content:flex-start;
+    margin:4px 0 0;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .term-row::-webkit-scrollbar{display:none}
+
+  .attempt-tabs{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    width:100%;
+    gap:6px;
+    scrollbar-width:none;
+  }
+  .attempt-tabs::-webkit-scrollbar{display:none}
+
+  .attempt-tab{
+    min-width:max-content;
+    padding:7px 10px;
+    font-size:11px;
+    white-space:nowrap;
+  }
+
+  .summary-line{
+    margin:12px 0 8px;
+    line-height:1.5;
+    font-size:11.5px;
+  }
+
+  .summary-card{
+    grid-template-columns:1fr;
+    margin-bottom:16px;
+    border:1px solid var(--border);
+  }
+
+  .summary-cell{
+    min-height:auto;
+    padding:12px;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+
+  .summary-cell:last-child{border-bottom:none}
+
+  .label{
+    font-size:10px;
+  }
+
+  .big-value{
+    font-size:24px;
+    margin-top:8px;
+  }
+
+  .grade-pill{
+    padding:5px 12px;
+    font-size:13px;
+    margin-left:6px;
+  }
+
+  .info-text{
+    font-size:12px;
+  }
+
+  .section{
+    margin-top:16px;
+    padding-top:12px;
+  }
+
+  .section-header{
+    align-items:flex-start;
+    gap:8px;
+    font-size:13px;
+    line-height:1.35;
+  }
+
+  .section-header span{
+    font-size:10.5px;
+    text-align:right;
+  }
+
+  .attempt-progress-row{
+    grid-template-columns:1fr;
+    gap:8px;
+    margin:14px 0;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#fff;
+  }
+
+  .attempt-title{
+    font-size:13px;
+  }
+
+  .attempt-date{
+    font-size:11px;
+  }
+
+  .progress-shell{
+    height:22px;
+  }
+
+  .result-mini{
+    grid-template-columns:auto 1fr;
+    gap:8px;
+    font-size:12px;
+  }
+
+  .domain-table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+    border:1px solid var(--border);
+    border-radius:10px;
+  }
+
+  .domain-table th,.domain-table td{
+    padding:10px;
+    font-size:12px;
+  }
+
+  .score-badge{
+    height:24px;
+    min-width:30px;
+    font-size:11px;
+  }
+
+  .standards-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .standard-group{
+    padding-left:10px;
+  }
+
+  .standard-title{
+    font-size:13px;
+  }
+
+  .standard-list{
+    line-height:1.8;
+    font-size:12px;
+  }
+
+  .history-chart{
+    padding:12px;
+    overflow-x:auto;
+  }
+
+  .history-top{
+    gap:20px;
+    justify-content:space-between;
+  }
+
+  .history-top strong{
+    font-size:17px;
+  }
+
+  svg{
+    min-width:520px;
+    height:190px;
+  }
+}
+
+@media (max-width: 420px){
+  .skill-strip{
+    grid-template-columns:1fr;
+  }
+
+  #topArea{
+    top:48px;
+  }
+
+  .header-row{
+    flex-direction:row;
+  }
+
+  .student{
+    font-size:15px;
+  }
+
+  .skill-card{
+    min-height:64px;
+    flex-direction:row;
+  }
+
+  .skill-score{
+    font-size:17px;
+  }
+
+  .summary-line{
+    font-size:11px;
+  }
+
+  .big-value{
+    font-size:22px;
+  }
+}
+
 </style>
 </head>
 <body>
