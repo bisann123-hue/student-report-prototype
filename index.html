@@ -24,19 +24,24 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 .main{padding:18px 24px 36px;overflow:initial;height:auto;}
 .panel{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(15,23,42,.06);padding:18px 22px 26px;position:relative;}
 
-/* UNIFIED WRAPPED STICKY CONTAINER */
-.sticky-header-container {
+/* 1. STICKY STUDENT NAME ROW */
+.header-row {
   position: sticky;
-  top: 0px; 
+  top: 0px;
   background: #ffffff;
-  z-index: 999;
-  padding: 4px 0 16px 0;
-  margin-bottom: 20px;
-  border-bottom: 2px dashed var(--border);
+  z-index: 1000;
+  padding: 6px 0 12px 0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
-
-.header-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.student{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:900}.student-face{width:32px;height:32px;border-radius:50%;background:#dbeafe;display:grid;place-items:center}
-.actions{display:flex;gap:8px}.icon-btn{width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#475569;font-size:18px;display:grid;place-items:center;cursor:pointer;position:relative}.icon-btn:hover{border-color:var(--teal);background:var(--bg)}
+.student{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:900}
+.student-face{width:32px;height:32px;border-radius:50%;background:#dbeafe;display:grid;place-items:center}
+.actions{display:flex;gap:8px}
+.icon-btn{width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#475569;font-size:18px;display:grid;place-items:center;cursor:pointer;position:relative}
+.icon-btn:hover{border-color:var(--teal);background:var(--bg)}
 
 .icon-btn.has-filter::after {
   content: '';
@@ -50,10 +55,21 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
   border-radius: 50%;
 }
 
-.skill-strip{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin:0 0 16px}.skill-card{border:1px solid var(--border);border-radius:12px;background:#fff;min-height:86px;padding:14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer;transition:.15s}.skill-card:hover{box-shadow:0 6px 18px rgba(15,23,42,.08);transform:translateY(-1px)}.skill-card.active{border:2px solid var(--teal);background:var(--teal-soft)}.skill-title{font-size:12px;color:var(--text2);font-weight:800;margin-bottom:7px}.skill-score{font-size:22px;font-weight:950;line-height:1}.skill-score.empty{color:var(--text3)}.skill-meta{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+/* 2. NON-STICKY SKILL STRIP */
+.skill-strip{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin:12px 0 24px}.skill-card{border:1px solid var(--border);border-radius:12px;background:#fff;min-height:86px;padding:14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer;transition:.15s}.skill-card:hover{box-shadow:0 6px 18px rgba(15,23,42,.08);transform:translateY(-1px)}.skill-card.active{border:2px solid var(--teal);background:var(--teal-soft)}.skill-title{font-size:12px;color:var(--text2);font-weight:800;margin-bottom:7px}.skill-score{font-size:22px;font-weight:950;line-height:1}.skill-score.empty{color:var(--text3)}.skill-meta{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
 
-/* UNIFIED MOST RECENT PILL STYLING */
 .active-pill,.status-pill{border-radius:999px;padding:4px 9px;font-size:10px;font-weight:900}.active-pill{background:#eff6ff;color:#1e40af}.above{background:#dcfce7;color:#15803d}.on{background:#fef3c7;color:#92400e}.below{background:#fee2e2;color:#b91c1c}.pending{background:#fef3c7;color:#92400e}.progress{background:#dbeafe;color:#1d4ed8}.not-started{background:#f1f5f9;color:#64748b}.skill-icon{width:34px;height:34px;border-radius:9px;background:var(--teal-light);color:var(--teal);display:grid;place-items:center;font-size:16px}
+
+/* 3. STICKY TERM CONTROLS LAYER (Stacks below Student Name Row at 64px) */
+.sticky-header-container {
+  position: sticky;
+  top: 64px; 
+  background: #ffffff;
+  z-index: 999;
+  padding: 14px 0;
+  margin-bottom: 20px;
+  border-bottom: 2px dashed var(--border);
+}
 
 /* ALIGNMENT ROW FOR CONTROL ELEMENTS */
 .controls-alignment-row {
@@ -68,7 +84,7 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 .summary-card{display:grid;grid-template-columns:1.4fr 1fr 1fr 2.2fr;background:#f7f9fc;border-radius:12px;overflow:hidden;margin-bottom:22px}.summary-cell{padding:15px 18px;border-right:1px solid var(--border);min-height:96px}.summary-cell:last-child{border-right:none}.label{color:#64748b;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.03em}.big-value{font-size:30px;font-weight:950;margin-top:10px}.grade-pill{background:#dff3d5;color:#407c2e;border-radius:999px;padding:7px 16px;font-weight:900;margin-left:10px;font-size:15px}.info-text{color:#5b6676;line-height:1.5;font-size:13px}.link{color:var(--teal);text-decoration:underline}
 .section{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}.section-header{display:flex;align-items:center;justify-content:space-between;font-weight:950;margin-bottom:12px;cursor:pointer}.section-header span{font-size:12px;color:#94a3b8;font-weight:800}
 .attempt-progress-row{display:grid;grid-template-columns:180px 1fr 130px;gap:18px;align-items:center;margin:16px 0}.attempt-title{font-weight:950}.attempt-date{color:#7b8794;font-size:12px;margin-top:4px}.progress-shell{height:26px;border:1px solid #dbe1e8;border-radius:6px;overflow:hidden;background:white}.progress-fill{height:100%;background:#a8db8f}.progress-fill.pending-fill{background:#f59e0b}.progress-upcoming{height:100%;background:#f1f5f9;color:#7b8794;display:flex;align-items:center;padding-left:14px;font-size:12px;font-weight:700}.result-mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;color:#475569;font-weight:800}
-.domain-table{width:100%;border-collapse:collapse}.domain-table th,.domain-table td{border-bottom:1px solid #edf0f3;padding:12px;text-align:left}.domain-table th{color:#64748b;font-size:12px}.score-badge{display:inline-flex;min-width:34px;height:28px;padding:0 10px;align-items:center;justify-content:center;border-radius:999px;font-weight:900}.score-strong{background:#d8f2cf;color:#347a2a}.score-mid{background:#fff0b8;color:#8a6400}.score-low{background:#ffd4d4;color:#b42318}.score-blue{background:#d6ebff;color:#2563eb}
+.domain-table{width:100%;border-collapse:collapse}.domain-table th,.domain-table td{border-bottom:1px solid #edf0f3;padding:12px;text-align:left}.domain-table th{color:#64748b;font-size:12px}.score-badge{display:inline-flex;min-width:34px;height:28px;padding:0 10px;align-items:center;justify-content:center;border-radius:999px;font-weight:900}.score-strong{background:#d8f2cf;color:#347a2a}.score-mid覆{background:#fff0b8;color:#8a6400}.score-strong{background:#d8f2cf;color:#347a2a}.score-mid{background:#fff0b8;color:#8a6400}.score-low{background:#ffd4d4;color:#b42318}.score-blue{background:#d6ebff;color:#2563eb}
 .standards-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.standard-group{border-left:4px solid var(--red);padding-left:14px}.standard-group.meeting{border-left-color:var(--green)}.standard-title{font-weight:950;margin-bottom:10px}.standard-list{margin:0;padding-left:18px;line-height:1.8}.arabic{direction:rtl;text-align:right;font-family:Tahoma,Arial,sans-serif}
 .history-chart{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}.history-top{display:flex;gap:38%;margin-bottom:14px;font-weight:800}.history-top strong{display:block;font-size:20px;margin-top:5px}svg{width:100%;height:220px;overflow:visible}.hidden{display:none!important}
 @media(max-width:1100px){.shell{grid-template-columns:80px 1fr}.side-item span,.class-title span{display:none}.skill-strip{grid-template-columns:repeat(2,1fr)}.summary-card,.standards-grid{grid-template-columns:1fr}.attempt-progress-row{grid-template-columns:150px 1fr}.result-mini{grid-column:2}}
@@ -105,6 +121,7 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
   .year-options{gap:10px}
   .year-option{min-height:42px;font-size:14px;justify-content:space-between}
   .controls-alignment-row {flex-direction: column; align-items: flex-start;}
+  .sticky-header-container { top: 76px; }
 }
 </style>
 </head>
@@ -115,20 +132,27 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 <main class="main">
   <section class="panel">
     
-    <div class="sticky-header-container">
-      <div class="header-row">
-        <div class="student-block">
-          <div class="student"><div class="student-face">👦</div> Ahmed Al Nasser ▾</div>
-          <div class="year-view-badge" id="yearViewBadge">Viewing: Academic Year 2024-2025</div>
-        </div>
-        <div class="actions">
-          <button class="icon-btn history-btn" id="historyBtn" type="button" title="Previous Academic Years" aria-label="Previous Academic Years">🕘</button>
-          <button class="icon-btn" title="Download" type="button">⬇️</button>
-        </div>
+    <!-- 1. STICKY STUDENT ROW -->
+    <div class="header-row">
+      <div class="student-block">
+        <div class="student"><div class="student-face">👦</div> Ahmed Al Nasser ▾</div>
+        <div class="year-view-badge" id="yearViewBadge">Viewing: Academic Year 2024-2025</div>
       </div>
-      <div id="topArea"></div>
+      <div class="actions">
+        <button class="icon-btn history-btn" id="historyBtn" type="button" title="Previous Academic Years" aria-label="Previous Academic Years">🕘</button>
+        <button class="icon-btn" title="Download" type="button">⬇️</button>
+      </div>
     </div>
 
+    <!-- 2. STATIONARY SKILL CARDS STRIP -->
+    <div id="skillCardsStripArea"></div>
+
+    <!-- 3. SECONDARY STICKY LAYER (Term Selection & Dynamic Header Title) -->
+    <div class="sticky-header-container">
+      <div id="controlsTabsArea"></div>
+    </div>
+
+    <!-- COMPREHENSIVE REPORT DETAILS -->
     <div id="reportContent"></div>
   </section>
 </main>
@@ -205,17 +229,20 @@ function adjustedHistory(values){
 function renderCards(){
   const keys=["reading","listening","writing","speaking"];
   const sel=selected();
-
-  document.getElementById("topArea").innerHTML=`
+  
+  // Render Stationary Skill Cards Strip
+  document.getElementById("skillCardsStripArea").innerHTML=`
     <div class="skill-strip">${keys.map(k=>{
       const s=data[k],st=cardStatus(latest(k));
       return `<div class="skill-card ${state.skill===k?"active":""}" data-skill="${k}">
         <div><div class="skill-title">Arabic ${esc(s.label)}</div><div class="skill-score ${st.value==="--"?"empty":""}">${esc(st.value)}</div><div class="skill-meta"><span class="active-pill">Most Recent</span><span class="status-pill ${st.cls}">${esc(st.label)}</span></div></div><div class="skill-icon">${s.icon}</div>
       </div>`;
-    }).join("")}</div>
-    
+    }).join("")}</div>`;
+
+  // Render Stacked Sticky Control Elements Row
+  document.getElementById("controlsTabsArea").innerHTML=`
     <div class="controls-alignment-row">
-      <div class="summary-line">Results Overview (Academic Year ${esc(state.year)}) &nbsp; | &nbsp; Selected: ${esc(sel.short)}</div>
+      <div class="summary-line">Results Overview (Academic Year ${esc(state.year)}) &nbsp; | &nbsp; Arabic ${esc(current().label)} - ${esc(sel.short)}</div>
       <div class="attempt-tabs">${current().attempts.map(raw=>{
         const a=adjustAttempt(raw);
         return `<button class="attempt-tab ${state.term===a.key?"active":""} ${a.upcoming?"disabled":""}" data-term="${a.key}">
