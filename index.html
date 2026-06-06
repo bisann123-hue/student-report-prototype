@@ -56,7 +56,7 @@ body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:#EFF2F5;c
 }
 
 /* 2. NON-STICKY SKILL STRIP */
-.skill-strip{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin:12px 0 24px}.skill-card{border:1px solid var(--border);border-radius:12px;background:#fff;min-height:86px;padding:14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer;transition:.15s}.skill-card:hover{box-shadow:0 6px 18px rgba(15,23,42,.08);transform:translateY(-1px)}.skill-card.active{border:2px solid var(--teal);background:var(--teal-soft)}.skill-title{font-size:12px;color:var(--text2);font-weight:800;margin-bottom:7px}.skill-score{font-size:22px;font-weight:950;line-height:1}.skill-score.empty{color:var(--text3)}.skill-meta{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+.skill-strip{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:12px;margin:12px 0 24px}.skill-card{border:1px solid var(--border);border-radius:12px;background:#fff;min-height:86px;padding:14px;display:flex;justify-content:space-between;gap:10px;cursor:pointer;transition:.15s}.skill-card:hover{box-shadow:0 6px 18px rgba(15,23,42,.08);transform:translateY(-1px)}.skill-card.active{border:2px solid var(--teal);background:var(--teal-soft)}.skill-card.overall-card{border-color:#C7D2FE;background:linear-gradient(135deg,#FFFFFF 0%,#F8FAFF 42%,#EEF2FF 100%)}.skill-card.overall-card.active{border:2px solid #6366F1;background:linear-gradient(135deg,#F8FAFF 0%,#EEF2FF 100%);box-shadow:0 8px 22px rgba(79,70,229,.12)}.skill-card.overall-card .skill-icon{background:#E0E7FF;color:#4F46E5}.skill-card.overall-card .skill-title{color:#4338CA}.summary-mini-badge{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;background:#EEF2FF;color:#4338CA;font-size:10px;font-weight:950;letter-spacing:.03em;text-transform:uppercase}.skill-title{font-size:12px;color:var(--text2);font-weight:800;margin-bottom:7px}.skill-score{font-size:22px;font-weight:950;line-height:1}.skill-score.empty{color:var(--text3)}.skill-meta{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
 
 /* STYLE VARIANTS FOR CURRENT ACTIVE VS HISTORICAL SNAPSHOTS */
 .active-pill,.status-pill{border-radius:999px;padding:4px 9px;font-size:10px;font-weight:900}
@@ -232,9 +232,40 @@ function adjustedHistory(values){
   return values.map(v=>Math.max(0,Number(v)+activeYearProfile().scoreDelta));
 }
 
+
+function skillsKeys(){return ["reading","listening","writing","speaking","overall"]}
+function baseSkillKeys(){return ["reading","listening","writing","speaking"]}
+function latestCompletedAttempt(k){
+  return data[k].attempts.map(adjustAttempt).filter(a=>a.completed).at(-1);
+}
+function attemptForSkillTerm(k,term){
+  return adjustAttempt(data[k].attempts.find(a=>a.key===term)||data[k].attempts[1]);
+}
+function completedSkillAttemptsForTerm(term){
+  return baseSkillKeys().map(k=>({key:k,skill:data[k],attempt:attemptForSkillTerm(k,term)})).filter(x=>x.attempt.completed && Number.isFinite(Number(x.attempt.scale)));
+}
+function overallForTerm(term){
+  const completed=completedSkillAttemptsForTerm(term);
+  const count=completed.length;
+  const avg=count===4?Math.round(completed.reduce((sum,x)=>sum+Number(x.attempt.scale),0)/4):null;
+  const prevTerm=term==="term2"?"term1":term==="term3"?"term2":null;
+  let growth=null;
+  if(avg!==null && prevTerm){
+    const prev=overallForTerm(prevTerm);
+    if(prev.avg!==null) growth=avg-prev.avg;
+  }
+  return {count,avg,growth,completed};
+}
+function overallLatestStatus(){
+  const o=overallForTerm(CURRENT_LATEST_ATTEMPT);
+  if(o.avg!==null){ const l=level(o.avg); return {value:o.avg,label:l.label,cls:l.cls}; }
+  return {value:"--",label:`${o.count} of 4 skills completed`,cls:o.count?"progress":"not-started"};
+}
+function skillLabel(k){return k==="overall"?"Overall Skills":data[k].label}
+
 function renderCards(){
-  const keys=["reading","listening","writing","speaking"];
-  const sel=selected();
+  const keys=skillsKeys();
+  const sel=state.skill==="overall"?overallForTerm(state.term):selected();
   
   const isDefaultYear = state.year === DEFAULT_YEAR;
   const timeframeLabel = isDefaultYear ? "Current Active" : "Most Recent";
@@ -242,25 +273,30 @@ function renderCards(){
   
   document.getElementById("skillCardsStripArea").innerHTML=`
     <div class="skill-strip">${keys.map(k=>{
-      const s=data[k],st=cardStatus(latest(k));
-      return `<div class="skill-card ${state.skill===k?"active":""}" data-skill="${k}">
-        <div><div class="skill-title">Arabic ${esc(s.label)}</div><div class="skill-score ${st.value==="--"?"empty":""}">${esc(st.value)}</div><div class="skill-meta"><span class="active-pill ${timeframeClass}">${timeframeLabel}</span><span class="status-pill ${st.cls}">${esc(st.label)}</span></div></div><div class="skill-icon">${s.icon}</div>
+      const isOverall=k==="overall";
+      const s=isOverall?{label:"Overall Skills",icon:"◎"}:data[k];
+      const st=isOverall?overallLatestStatus():cardStatus(latest(k));
+      return `<div class="skill-card ${isOverall?"overall-card":""} ${state.skill===k?"active":""}" data-skill="${k}">
+        <div><div class="skill-title">Arabic ${esc(s.label)} ${isOverall?`<span class="summary-mini-badge">Summary</span>`:""}</div><div class="skill-score ${st.value==="--"?"empty":""}">${esc(st.value)}</div><div class="skill-meta"><span class="active-pill ${timeframeClass}">${timeframeLabel}</span><span class="status-pill ${st.cls}">${esc(st.label)}</span></div></div><div class="skill-icon">${s.icon}</div>
       </div>`;
     }).join("")}</div>`;
 
   document.getElementById("controlsTabsArea").innerHTML=`
     <div class="controls-alignment-row">
-      <div class="summary-line">Results Overview (Academic Year ${esc(state.year)}) &nbsp; | &nbsp; Arabic ${esc(current().label)} - ${esc(sel.short)}</div>
-      <div class="attempt-tabs">${current().attempts.map(raw=>{
+      <div class="summary-line">Results Overview (Academic Year ${esc(state.year)}) &nbsp; | &nbsp; Arabic ${esc(skillLabel(state.skill))} - ${esc(state.skill==="overall"?(data.reading.attempts.find(a=>a.key===state.term)||data.reading.attempts[1]).short:sel.short)}</div>
+      <div class="attempt-tabs">${(state.skill==="overall"?data.reading.attempts:current().attempts).map(raw=>{
         const a=adjustAttempt(raw);
+        const o=overallForTerm(a.key);
+        const showOverall=state.skill==="overall";
         return `<button class="attempt-tab ${state.term===a.key?"active":""} ${a.upcoming?"disabled":""}" data-term="${a.key}">
-          ${esc(a.short)} ${a.completed?`<span class="tick">✓</span> ${esc(a.scale)}`:a.pending?"Pending":a.notStarted?"--":"--"} ${raw.growth?`<span class="growth">↑ ${esc(raw.growth)}</span>`:""}
+          ${esc(a.short)} ${showOverall?(o.avg!==null?`<span class="tick">✓</span> ${esc(o.avg)}${o.growth?` <span class="growth">↑ ${esc(o.growth)}</span>`:""}`:`${esc(o.count)}/4 completed`):(a.completed?`<span class="tick">✓</span> ${esc(a.scale)}`:a.pending?"Pending":a.notStarted?"--":"--")} ${!showOverall&&raw.growth?`<span class="growth">↑ ${esc(raw.growth)}</span>`:""}
         </button>`;
       }).join("")}</div>
     </div>`;
 }
 
 function renderReport(){
+  if(state.skill==="overall"){ renderOverallReport(); return; }
   const s=current(),sel=selected(),idx=["term1","term2","term3"].indexOf(state.term)+1;
   const rows=s.attempts.map(raw=>{
     const a=adjustAttempt(raw);
@@ -285,12 +321,76 @@ function renderReport(){
     <div class="section"><div class="section-header" data-toggle="historyBody">⌃ &nbsp; Historical performance <span>All years</span></div><div id="historyBody" class="history-chart"><div class="history-top"><div>Last result<strong>${esc(history.at(-1))}</strong></div><div>Best result<strong>${esc(Math.max(...history))}</strong></div></div>${chart(history)}</div></div>`;
 }
 
-function chart(values){const min=400,max=900,w=900,h=210,l=45,r=20,t=16,b=30,pw=w-l-r,ph=h-t-b;const pts=values.map((v,i)=>({x:l+(pw/(values.length-1))*i,y:t+ph-((v-min)/(max-min))*ph,v}));const line=pts.map(p=>`${p.x},${p.y}`).join(" "),area=`${l},${t+ph} ${line} ${l+pw},${t+ph}`;return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polygon points="${area}" fill="#e0f5f6" opacity=".9"></polygon><polyline points="${line}" fill="none" stroke="#0891b2" stroke-width="3"></polyline>${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="white" stroke="#0891b2" stroke-width="2"></circle>`).join("")}</svg>`}
+
+function renderOverallReport(){
+  const selRaw=data.reading.attempts.find(a=>a.key===state.term)||data.reading.attempts[1];
+  const o=overallForTerm(state.term);
+  const score=o.avg!==null?o.avg:"--";
+  const status=o.avg!==null?level(o.avg):{label:`${o.count} of 4 skills completed`,cls:o.count?"progress":"not-started"};
+  const overallAttempts=data.reading.attempts.map(raw=>{
+    const a=adjustAttempt(raw), x=overallForTerm(a.key);
+    const pct=x.avg!==null?Math.min(100,Math.max(0,Math.round((x.avg/900)*100))):Math.round((x.count/4)*100);
+    return `<div class="attempt-progress-row"><div><div class="attempt-title">${esc(a.label)}</div><div class="attempt-date">${esc(a.date)}</div></div><div class="progress-shell">${a.upcoming?`<div class="progress-upcoming">Upcoming (Not Available Yet)</div>`:x.avg!==null?`<div class="progress-fill" style="width:${pct}%"></div>`:`<div class="progress-upcoming">${esc(x.count)} of 4 skills completed</div>`}</div><div class="result-mini"><span class="score-badge ${x.avg!==null?badge(x.avg):"score-mid"}">${x.avg!==null?"Overall":"In progress"}</span><span>${esc(x.avg!==null?x.avg:`${x.count}/4`)} ${x.growth?`<span class="growth">↑${esc(x.growth)}</span>`:""}</span></div></div>`;
+  }).join("");
+  const skillRows=baseSkillKeys().map(k=>{
+    const a=attemptForSkillTerm(k,state.term);
+    const value=a.completed?a.scale:a.pending?"Pending Evaluation":a.notStarted?"Not Started":"--";
+    return `<tr><td>Arabic ${esc(data[k].label)}</td><td><span class="score-badge ${badge(value)}">${esc(value)}</span></td><td>${esc(a.completed?level(a.scale).label:a.pending?"Pending Evaluation":a.notStarted?"Not Started":"No data")}</td></tr>`;
+  }).join("");
+  const support=baseSkillKeys().filter(k=>{const a=attemptForSkillTerm(k,state.term);return !a.completed || Number(a.scale)<650;}).map(k=>`Arabic ${data[k].label}`);
+  const meeting=baseSkillKeys().filter(k=>{const a=attemptForSkillTerm(k,state.term);return a.completed && Number(a.scale)>=650;}).map(k=>`Arabic ${data[k].label}`);
+  const history=data.reading.attempts.map(a=>overallForTerm(a.key).avg).filter(v=>v!==null);
+  const hist=history.length?history:[0];
+  document.getElementById("reportContent").innerHTML=`
+    <div class="summary-card">
+      <div class="summary-cell"><div class="label">Overall Performance<br>(Average of 4 Skills)</div><div class="big-value">${esc(score)} ${o.growth?`<span style="font-size:16px;color:#64748b">↑ ${esc(o.growth)}</span>`:""} <span class="status-pill ${status.cls}">${esc(status.label)}</span></div></div>
+      <div class="summary-cell"><div class="label">Completion</div><div class="big-value">${esc(o.count)}/4</div></div>
+      <div class="summary-cell"><div class="label">Included Skills</div><div class="big-value" style="font-size:22px">R • L • W • S</div></div>
+      <div class="summary-cell"><div class="info-text">The overall score is calculated only when Reading, Listening, Writing, and Speaking are all completed for the selected term. Until then, the card shows how many skills have completed results. <span class="link">Learn More</span></div></div>
+    </div>
+    <div class="section">${overallAttempts}</div>
+    <div class="section"><div class="section-header" data-toggle="skillsScoresBody">⌃ &nbsp; Skill scores <span>${esc(selRaw.label)}</span></div><div id="skillsScoresBody"><table class="domain-table"><thead><tr><th>Skill</th><th>${esc(selRaw.label)}</th><th>Status</th></tr></thead><tbody>${skillRows}</tbody></table></div></div>
+    <div class="section"><div class="section-header" data-toggle="overallStandardsBody">⌃ &nbsp; Overall skill insights <span>${esc(selRaw.label)}</span></div><div id="overallStandardsBody" class="standards-grid"><div class="standard-group"><div class="standard-title">Requiring support / incomplete</div><ul class="standard-list">${(support.length?support:["No skill requiring support based on completed results"]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div class="standard-group meeting"><div class="standard-title">Meeting expectations</div><ul class="standard-list">${(meeting.length?meeting:["Complete all four skills to generate a full overall insight"]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div></div>
+    <div class="section"><div class="section-header" data-toggle="overallHistoryBody">⌃ &nbsp; Historical overall performance <span>All completed overall results</span></div><div id="overallHistoryBody" class="history-chart"><div class="history-top"><div>Last overall result<strong>${esc(hist.at(-1))}</strong></div><div>Best overall result<strong>${esc(Math.max(...hist))}</strong></div></div>${chart(hist)}</div></div>`;
+}
+
+function chart(values){const min=400,max=900,w=900,h=210,l=45,r=20,t=16,b=30,pw=w-l-r,ph=h-t-b;const pts=values.map((v,i)=>({x:l+(values.length>1?(pw/(values.length-1))*i:pw/2),y:t+ph-((v-min)/(max-min))*ph,v}));const line=pts.map(p=>`${p.x},${p.y}`).join(" "),area=`${l},${t+ph} ${line} ${l+pw},${t+ph}`;return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polygon points="${area}" fill="#e0f5f6" opacity=".9"></polygon><polyline points="${line}" fill="none" stroke="#0891b2" stroke-width="3"></polyline>${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="white" stroke="#0891b2" stroke-width="2"></circle>`).join("")}</svg>`}
 
 function bind(){
-  document.querySelectorAll("[data-skill]").forEach(el=>el.onclick=()=>{state.skill=el.dataset.skill;state.term=CURRENT_LATEST_ATTEMPT;render()});
-  document.querySelectorAll("[data-term]").forEach(el=>el.onclick=()=>{if(el.classList.contains("disabled"))return;state.term=el.dataset.term;render()});
-  document.querySelectorAll("[data-toggle]").forEach(el=>el.onclick=()=>document.getElementById(el.dataset.toggle)?.classList.toggle("hidden"))
+  const skillArea=document.getElementById("skillCardsStripArea");
+  const controlsArea=document.getElementById("controlsTabsArea");
+  const reportArea=document.getElementById("reportContent");
+
+  // Use event delegation so clicks keep working after Overall Skills re-renders the cards/report.
+  if(skillArea && !skillArea.dataset.bound){
+    skillArea.dataset.bound="true";
+    skillArea.addEventListener("click", e=>{
+      const card=e.target.closest("[data-skill]");
+      if(!card || !skillArea.contains(card)) return;
+      state.skill=card.dataset.skill;
+      state.term=CURRENT_LATEST_ATTEMPT;
+      render();
+    });
+  }
+
+  if(controlsArea && !controlsArea.dataset.bound){
+    controlsArea.dataset.bound="true";
+    controlsArea.addEventListener("click", e=>{
+      const tab=e.target.closest("[data-term]");
+      if(!tab || !controlsArea.contains(tab) || tab.classList.contains("disabled")) return;
+      state.term=tab.dataset.term;
+      render();
+    });
+  }
+
+  if(reportArea && !reportArea.dataset.bound){
+    reportArea.dataset.bound="true";
+    reportArea.addEventListener("click", e=>{
+      const header=e.target.closest("[data-toggle]");
+      if(!header || !reportArea.contains(header)) return;
+      document.getElementById(header.dataset.toggle)?.classList.toggle("hidden");
+    });
+  }
 }
 
 function openYearModal(){
@@ -369,6 +469,7 @@ function render(){
   bind();
 }
 
+bind();
 render();
 bindYearHistory();
 </script>
