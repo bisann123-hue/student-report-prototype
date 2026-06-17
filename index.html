@@ -233,7 +233,7 @@ function adjustedHistory(values){
 }
 
 
-function skillsKeys(){return ["reading","listening","writing","speaking","overall"]}
+function skillsKeys(){return ["reading","listening","writing","speaking"]}
 function baseSkillKeys(){return ["reading","listening","writing","speaking"]}
 function latestCompletedAttempt(k){
   return data[k].attempts.map(adjustAttempt).filter(a=>a.completed).at(-1);
